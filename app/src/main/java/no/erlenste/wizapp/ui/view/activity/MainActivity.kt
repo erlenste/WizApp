@@ -1,4 +1,4 @@
-package no.erlenste.wizapp
+package no.erlenste.wizapp.ui.view.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,8 +10,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import no.erlenste.wizapp.R
 import no.erlenste.wizapp.ui.theme.WizAppTheme
+import no.erlenste.wizapp.ui.view.components.AppToolbar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,11 +20,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WizAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = { AppToolbar(getString(R.string.app_name)) }
+                ) { innerPadding ->
+                   MainScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -31,17 +32,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun MainScreen(modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = "This should render OK",
         modifier = modifier
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WizAppTheme {
-        Greeting("Android")
-    }
 }
