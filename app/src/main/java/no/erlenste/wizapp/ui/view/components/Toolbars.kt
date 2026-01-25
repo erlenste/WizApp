@@ -16,7 +16,7 @@ fun AppToolbar(title: String) {
     TopAppBar(
         title = { Text(text = title, color = MaterialTheme.colorScheme.onPrimary) },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.tertiary
         )
     )
 }
