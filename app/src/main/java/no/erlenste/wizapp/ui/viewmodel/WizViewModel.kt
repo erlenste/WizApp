@@ -1,8 +1,14 @@
 package no.erlenste.wizapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import no.erlenste.wizapp.data.datasource.WizDataSource
+import javax.inject.Inject
 
-class WizViewModel : ViewModel() {
+@HiltViewModel
+class WizViewModel @Inject constructor(
+    private val wizDataSource: WizDataSource
+) : ViewModel() {
 
     // TODO: implement the WizUiState
 

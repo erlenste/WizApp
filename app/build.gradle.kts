@@ -1,14 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
+
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+    id("org.jetbrains.kotlin.android") version "2.0.0"
+    id("com.google.devtools.ksp") version "2.0.0-1.0.22"
+    id("com.google.dagger.hilt.android") version "2.51.1"
 }
 
 android {
     namespace = "no.erlenste.wizapp"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "no.erlenste.wizapp"
@@ -32,6 +34,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -61,4 +66,12 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:${ktor_version}")
     implementation("io.ktor:ktor-client-content-negotiation:${ktor_version}")
     implementation("io.ktor:ktor-serialization-kotlinx-json:${ktor_version}")
+
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    ksp("com.google.dagger:hilt-compiler:2.51.1")
+}
+
+ksp {
+    arg("dagger.fastInit", "enabled")
+    arg("dagger.stacktraceJs", "true")
 }

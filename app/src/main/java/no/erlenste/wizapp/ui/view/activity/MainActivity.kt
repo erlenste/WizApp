@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dagger.hilt.android.AndroidEntryPoint
 import no.erlenste.wizapp.R
 import no.erlenste.wizapp.data.models.Option
 import no.erlenste.wizapp.data.models.spell.SpellDto
@@ -28,6 +29,7 @@ import no.erlenste.wizapp.ui.view.components.AppToolbar
 import no.erlenste.wizapp.ui.view.components.Dropdown
 import no.erlenste.wizapp.ui.view.utils.WizUtils
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
