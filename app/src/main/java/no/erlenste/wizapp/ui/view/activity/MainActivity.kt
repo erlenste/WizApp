@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     topBar = { AppToolbar(getString(R.string.app_name)) }
                 ) { innerPadding ->
-                   MainScreen(modifier = Modifier.padding(innerPadding))
+                    MainScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

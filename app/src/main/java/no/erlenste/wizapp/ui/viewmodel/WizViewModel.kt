@@ -10,9 +10,10 @@ class WizViewModel @Inject constructor(
     private val wizDataSource: WizDataSource
 ) : ViewModel() {
 
-    // TODO: implement the WizUiState
-
     // TODO: define flows and internal state holders
 
     // TODO: add functionality to fetch spells and wizards
+
+    // TODO: implement the WizUiState
+    // TODO: implement the UiState
 }
