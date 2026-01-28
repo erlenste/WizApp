@@ -11,13 +11,21 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import no.erlenste.wizapp.R
 import no.erlenste.wizapp.data.models.Option
@@ -28,6 +36,8 @@ import no.erlenste.wizapp.ui.theme.WizAppTheme
 import no.erlenste.wizapp.ui.view.components.AppToolbar
 import no.erlenste.wizapp.ui.view.components.Dropdown
 import no.erlenste.wizapp.ui.view.utils.WizUtils
+import no.erlenste.wizapp.ui.viewmodel.UiState
+import no.erlenste.wizapp.ui.viewmodel.WizViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -48,15 +58,34 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    wizViewModel: WizViewModel = hiltViewModel<WizViewModel>()
+) {
+    val uiState = wizViewModel.uiState.collectAsStateWithLifecycle()
+
+    var selectedOption by rememberSaveable { mutableStateOf(Option.SPELLS) }
     Column(modifier = modifier.fillMaxSize()) {
         Dropdown(
             options = listOf(Option.SPELLS, Option.WIZARDS),
-            selectedOption = Option.SPELLS,
-            onOptionSelected = {}
+            selectedOption = selectedOption,
+            onOptionSelected = {
+                selectedOption = it
+                wizViewModel.handleOptionSelected(it)
+            }
         )
         Column{
-            Text(text = "Render the results here!")
+            when (uiState.value) {
+                is UiState.Error -> Text("Buuh red card", color = Color.Red)
+                is UiState.Idle -> Text("Venter på input")
+                is UiState.Loading -> CircularProgressIndicator()
+                is UiState.Success -> {
+                    when (selectedOption) {
+                        Option.WIZARDS -> WizardResult(wizards = (uiState.value as UiState.Success).data.wizards)
+                        Option.SPELLS -> SpellResult(spells = (uiState.value as UiState.Success).data.spells)
+                    }
+                }
+            }
         }
     }
 }
